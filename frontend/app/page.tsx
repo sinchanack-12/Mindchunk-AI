@@ -6,6 +6,7 @@ import {
   CheckCircle, ArrowRight, Layers, HelpCircle, RefreshCw, Zap, Loader2,
   IdCard, RotateCcw, XCircle, Clock, TrendingDown, History
 } from "lucide-react";
+   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 interface Topic {
   id: string;
@@ -203,7 +204,7 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/ingest/pdf", {
+      const res = await fetch('${API_URL}/api/ingest/pdf', {
         method: "POST",
         body: formData,
       });
@@ -218,7 +219,7 @@ export default function Home() {
       setActiveTab("summary");
     } catch (err) {
       console.error("Failed to connect to backend:", err);
-      alert("Error connecting to FastAPI server at http://127.0.0.1:8000.");
+      alert(`Error connecting to FastAPI server at ${API_URL}.`);
     } finally {
       setLoading(false);
     }
@@ -232,7 +233,7 @@ export default function Home() {
     setFlippedCards({});
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/ingest/youtube", {
+      const res = await fetch(`${API_URL}/api/ingest/youtube`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url: youtubeUrl }),
@@ -303,7 +304,7 @@ export default function Home() {
   const handleQuickRefresher = async (record: MemoryRecord) => {
     setRefresherLoadingKey(record.key);
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/repair-kit", {
+      const res = await fetch(`${API_URL}/api/repair-kit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic_id: record.title }),
