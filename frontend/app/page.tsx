@@ -204,7 +204,7 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const res = await fetch('${API_URL}/api/ingest/pdf', {
+      const res = await fetch(`${API_URL}/api/ingest/pdf`, {
         method: "POST",
         body: formData,
       });
